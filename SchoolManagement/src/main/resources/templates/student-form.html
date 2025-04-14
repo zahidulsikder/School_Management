@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Student Form</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f4f8;
+            padding: 40px;
+        }
+
+        .form-container {
+            background: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .subject-group {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border: 1px solid #dcdcdc;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .add-btn {
+            background-color: #2ecc71;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+
+        .add-btn:hover {
+            background-color: #27ae60;
+        }
+
+        button[type="submit"] {
+            background-color: #3498db;
+            color: white;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+<div class="form-container">
+    <h2>Enter Student Info</h2>
+
+    <form th:action="@{/submitStudent}" th:object="${student}" method="post">
+        <div class="form-group">
+            <label>First Name:</label>
+            <input type="text" th:field="*{fName}"/>
+        </div>
+
+        <div class="form-group">
+            <label>Last Name:</label>
+            <input type="text" th:field="*{lName}"/>
+        </div>
+
+        <h3>Subjects</h3>
+        <div id="subjectsContainer">
+            <div th:each="subject, iterStat : *{subjects}" class="subject-group">
+                <div class="form-group">
+                    <label>Math:</label>
+                    <input type="text" th:field="*{subjects[__${iterStat.index}__].math}"/>
+                </div>
+                <div class="form-group">
+                    <label>English:</label>
+                    <input type="text" th:field="*{subjects[__${iterStat.index}__].english}"/>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="add-btn" onclick="addSubject()">+ Add Subject</button>
+
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<script>
+    let subjectIndex = [[${student.subjects.size()}]];
+
+    function addSubject() {
+        const container = document.getElementById("subjectsContainer");
+
+        const subjectDiv = document.createElement("div");
+        subjectDiv.className = "subject-group";
+
+        subjectDiv.innerHTML = `
+            <div class="form-group">
+                <label>Math:</label>
+                <input type="text" name="subjects[${subjectIndex}].math" />
+            </div>
+            <div class="form-group">
+                <label>English:</label>
+                <input type="text" name="subjects[${subjectIndex}].english" />
+            </div>
+        `;
+
+        container.appendChild(subjectDiv);
+        subjectIndex++;
+    }
+</script>
+</body>
+</html>

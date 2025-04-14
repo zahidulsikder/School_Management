@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Student Result</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f4f8;
+      padding: 40px;
+    }
+
+    .result-container {
+      background: #fff;
+      border-radius: 10px;
+      padding: 30px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    h2, h3 {
+      color: #2c3e50;
+      text-align: center;
+    }
+
+    .info-block {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid #e1e1e1;
+      border-radius: 8px;
+      background-color: #ecf0f1;
+    }
+
+    .info-block span {
+      font-weight: bold;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    li {
+      background: #dff9fb;
+      margin-bottom: 10px;
+      padding: 15px;
+      border-radius: 8px;
+      border-left: 5px solid #3498db;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      text-align: center;
+      text-decoration: none;
+      color: white;
+      background-color: #3498db;
+      padding: 10px 20px;
+      border-radius: 5px;
+    }
+
+    a:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+<div class="result-container">
+  <h2>Student Submitted</h2>
+
+  <div class="info-block">
+    <p>Full Name: <span th:text="${student.fName} + ' ' + ${student.lName}"></span></p>
+  </div>
+
+  <h3>Subjects</h3>
+  <ul>
+    <li th:each="subject : ${student.subjects}">
+      <p>Math: <span th:text="${subject.math}"></span></p>
+      <p>English: <span th:text="${subject.english}"></span></p>
+    </li>
+  </ul>
+
+  <div style="text-align: center;">
+    <a th:href="@{/studentForm}">Back to Form</a>
+  </div>
+</div>
+</body>
+</html>
